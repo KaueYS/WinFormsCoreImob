@@ -26,7 +26,7 @@ namespace WinFormsCoreImob
         {
             using (var context = new AppDbContext())
             {
-                var clientes = context.ClientesImoveis.ToList();
+                var clientes = context.ClientesImoveis.OrderBy(x => x.Nome).ToList();
 
                 grdCadastro.DataSource = clientes;
 

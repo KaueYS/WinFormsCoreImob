@@ -24,7 +24,7 @@ namespace WinFormsCoreImob
                 using (var context = new AppDbContext())
                 {
 
-                    var consultaClientes = context.ClientesImoveis.ToList();
+                    var consultaClientes = context.ClientesImoveis.OrderBy(x => x.Nome).ToList();
 
                     List<EncontrarVO> clienteEncontrado = new List<EncontrarVO>();
                     foreach (var venda in consultaClientes)
