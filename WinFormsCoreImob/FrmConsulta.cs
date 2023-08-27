@@ -13,12 +13,9 @@ namespace WinFormsCoreImob
 {
     public partial class FrmConsulta : Form
     {
-        
-        
         public FrmConsulta()
         {
             InitializeComponent();
-            
         }
         public void CarregarGrid()
         {
@@ -41,12 +38,11 @@ namespace WinFormsCoreImob
             {
                 MessageBox.Show("Nao foi possivel encontrar dados para mostrar", "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
+
         private void FrmConsulta_Load(object sender, EventArgs e)
         {
             CarregarGrid();
-            
         }
 
         private void VoltartoolStripButton1_Click(object sender, EventArgs e)
@@ -63,14 +59,12 @@ namespace WinFormsCoreImob
 
         private void btnFiltrarNome_Click(object sender, EventArgs e)
         {
-
             var filtro = txtFiltrar.Text.ToUpper().Trim();
             List<ClienteImovel> clienteImoveis = new List<ClienteImovel>();
             List<ClienteImovel> listaConsulta = new List<ClienteImovel>();
 
             using (var context = new AppDbContext())
             {
-
                 listaConsulta = context.ClientesImoveis.ToList();
 
                 foreach (var item in listaConsulta)
@@ -102,12 +96,10 @@ namespace WinFormsCoreImob
             grdConsulta.Columns["DataCadastro"].HeaderText = "Criado";
 
             LimparCampos();
-
         }
 
         private void btnFiltrarValor_Click(object sender, EventArgs e)
         {
-
             if (ValidarCampos())
             {
                 var valorMin = Convert.ToDecimal(txtValorMin.Text.Trim());
@@ -117,7 +109,6 @@ namespace WinFormsCoreImob
 
                 using (var context = new AppDbContext())
                 {
-
                     listaConsulta = context.ClientesImoveis.ToList();
 
                     foreach (var item in listaConsulta)
@@ -152,8 +143,6 @@ namespace WinFormsCoreImob
             }
         }
 
-
-
         private void LimparCampos()
         {
             txtFiltrar.Clear();
@@ -176,13 +165,11 @@ namespace WinFormsCoreImob
                 campos += "- Valor Max \n ";
             }
 
-
             if (!ret)
             {
                 MessageBox.Show("Complete os campos solicitados \n\n" + campos, "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             return ret;
         }
-
     }
 }

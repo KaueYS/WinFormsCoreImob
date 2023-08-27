@@ -94,8 +94,6 @@ namespace WinFormsCoreImob
             return ret;
         }
 
-
-
         public void Cadastrar(ClienteImovel cadastro)
         {
             using (var context = new AppDbContext())
@@ -111,6 +109,7 @@ namespace WinFormsCoreImob
             using (var context = new AppDbContext())
             {
                 context.ClientesImoveis.AddOrUpdate(cad);
+
                 context.SaveChanges();
             }
         }
@@ -163,23 +162,27 @@ namespace WinFormsCoreImob
             obj.DataCadastro = Convert.ToDateTime(dtCadastro.Value);
             obj.Observacoes = txtObservacoes.Text;
 
-            try
+            if (ValidarCampos())
             {
-                Alterar(obj);
-                CarregarGrid();
-                LimparCampos();
-                MessageBox.Show("CLIENTE ALTERADO COM SUCESSO", "SUCESSO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                try
+                {
+                    Alterar(obj);
+                    CarregarGrid();
+                    LimparCampos();
+                    MessageBox.Show("CLIENTE ALTERADO COM SUCESSO - ATENCAO APAGUE O REGISTRO ANTERIOR", "SUCESSO", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("CLIENTE NAO ALTERADO", "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception)
-            {
-                MessageBox.Show("CLIENTE NAO ALTERADO", "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
         }
 
         private void grdCadastro_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Quando clica na GRID carrega o fomulario
+
             if (grdCadastro.Rows.Count > 0)
             {
                 ClienteImovel produtos = grdCadastro.CurrentRow.DataBoundItem as ClienteImovel;
@@ -209,17 +212,16 @@ namespace WinFormsCoreImob
                     {
                         context.ClientesImoveis.Remove(idEnconstrado);
                         context.SaveChanges();
-                        CarregarGrid();
-                        LimparCampos();
                         MessageBox.Show("CLIENTE REMOVIDO COM SUCESSO", "SUCESSO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
+                CarregarGrid();
+                LimparCampos();
             }
             catch (Exception)
             {
                 MessageBox.Show("CLIENTE NAO ENCONTRADO", "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void LimpartoolStripButton1_Click(object sender, EventArgs e)
@@ -237,7 +239,6 @@ namespace WinFormsCoreImob
             FrmMenu frm = new FrmMenu();
             this.Hide();
             frm.ShowDialog();
-
         }
     }
 }
