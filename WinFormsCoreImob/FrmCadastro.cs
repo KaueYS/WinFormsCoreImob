@@ -202,28 +202,39 @@ namespace WinFormsCoreImob
 
         private void ExcluirtoolStripButton1_Click(object sender, EventArgs e)
         {
-            ClienteImovel clienteClicado = grdCadastro.CurrentRow.DataBoundItem as ClienteImovel;
-            try
-            {
-                using (var context = new AppDbContext())
-                {
-                    ClienteImovel idEnconstrado = context.ClientesImoveis.FirstOrDefault(x => x.Id == clienteClicado.Id);
-                    if (idEnconstrado != null)
-                    {
-                        context.ClientesImoveis.Remove(idEnconstrado);
-                        context.SaveChanges();
-                        MessageBox.Show("CLIENTE REMOVIDO COM SUCESSO", "SUCESSO", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                CarregarGrid();
-                LimparCampos();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("CLIENTE NAO ENCONTRADO", "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
+
+            if (txtNomeDoCliente.Text == "")
+            {
+                MessageBox.Show("SELECIONE UM CLIENTE ANTES DE APAGAR E TENHA CERTEZA QUE DESEJA DELETAR ESSE CLIENTE");
+            }
+            else
+            {
+
+                try
+                {
+                    ClienteImovel clienteClicado = grdCadastro.CurrentRow.DataBoundItem as ClienteImovel;
+                    using (var context = new AppDbContext())
+                    {
+                        ClienteImovel idEnconstrado = context.ClientesImoveis.FirstOrDefault(x => x.Id == clienteClicado.Id);
+                        if (idEnconstrado != null)
+                        {
+                            context.ClientesImoveis.Remove(idEnconstrado);
+                            context.SaveChanges();
+                            MessageBox.Show("CLIENTE REMOVIDO COM SUCESSO", "SUCESSO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    CarregarGrid();
+                    LimparCampos();
+                }
+
+                catch (Exception)
+                {
+                    MessageBox.Show("SELECIONE UM CLIENTE PARA DELETAR", "ERRO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+        }
         private void LimpartoolStripButton1_Click(object sender, EventArgs e)
         {
             LimparCampos();
@@ -242,4 +253,5 @@ namespace WinFormsCoreImob
         }
     }
 }
+
 
